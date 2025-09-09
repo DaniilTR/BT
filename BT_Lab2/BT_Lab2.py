@@ -8,7 +8,7 @@ def find_key(iin: str, zeros: int, ):
         text = f"{iin}+{key}"
         hash_value = hashlib.sha256(text.encode()).hexdigest()
         if hash_value.startswith(prefix):
-            return key, hash_value, 
+            return key, hash_value 
 
         key += 1
 
