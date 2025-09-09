@@ -1,22 +1,29 @@
-def find_outlier(integers):
-    # Берём первые три числа
-    first_three = integers[:3]
+import hashlib
 
-    # Считаем, сколько среди них чётных
-    evens = sum(1 for num in first_three if num % 2 == 0)
+def find_key(iin: str, zeros: int, ):
+    key = 0
+    prefix = "0" * zeros
 
-    # Определяем, кто в большинстве: чётные или нечётные
-    majority_is_even = evens > 1
+    while True:
+        text = f"{iin}+{key}"
+        hash_value = hashlib.sha256(text.encode()).hexdigest()
+        if hash_value.startswith(prefix):
+            return key, hash_value, 
 
-    # Ищем число, которое не совпадает с большинством
-    for num in integers:
-        if (num % 2 == 0) != majority_is_even:
-            return num
+        key += 1
 
+if __name__ == "__main__":
+    iin = input("Введите ИИН: ") # Пример: 041022501645
 
-# Примеры использования:
-print(find_outlier([2, 4, 0, 100, 4, 11, 2602, 36]))
-# ➝ 11 (единственное нечётное)
+    # 1 ноль
+    k1, z1 = find_key(iin, 1)
+    print(f"1 ноль -> ключ: {k1}, нулей: {z1},")
 
-print(find_outlier([160, 3, 1719, 19, 11, 13, -21]))
-# ➝ 160 (единственное чётное)
+    # 2 нуля
+    k2, z2 = find_key(iin, 2)
+    print(f"2 нуля -> ключ: {k2}, нулей: {z2},")
+
+    # 3 и более нулей
+    k3, z3 = find_key(iin, 3)
+    print(f"3 нуля -> ключ: {k3}, нулей: {z3},")
+    # если необходимо другое количество нулей, можно выбрать значение использовав zeros == 4, 5, 6 и т.д.
